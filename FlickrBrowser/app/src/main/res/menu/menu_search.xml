@@ -1,7 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivity">
+>
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
@@ -9,9 +8,10 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/menu_search"
+        android:id="@+id/search_view"
         android:icon="@android:drawable/ic_menu_search"
         android:orderInCategory="1"
         android:title="@string/action_search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always" />
 </menu>

@@ -1,7 +1,9 @@
 package com.khirman.flickrbrowser;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -21,30 +23,31 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         activateToolbar();
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        //GetRawData getRawData = new GetRawData("https://api.flickr.com/services/feeds/photos_public.gne?nojsoncallback=1&format=json");
-        //getRawData.execute();
-        //GetFlickrJsonData getFlickrJsonData = new GetFlickrJsonData("android,lollipop", false);
-        //getFlickrJsonData.execute();
-
         ProcessPhotos processPhotos = new ProcessPhotos("android,lollipop", true);
         processPhotos.execute();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(flickrRecyclerViewAdapter!=null){
+            String query = getSavedPreferenceData(SearchActivity.FLICKR_QUERY);
+            if(query.length()>0){
+                ProcessPhotos processPhotos = new ProcessPhotos(query, true);
+                processPhotos.execute();
+            }
+        }
+    }
+
+    private String getSavedPreferenceData(String key){
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        return sharedPref.getString(key,"");
     }
 
     @Override

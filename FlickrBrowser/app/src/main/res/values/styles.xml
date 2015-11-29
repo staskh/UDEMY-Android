@@ -19,4 +19,20 @@
     </style>
 
     <style name="AppTheme.Flickr" parent="AppTheme.Base"></style>
+
+    <style name="ActionBarThemeOverlay" parent ="" >
+        <item name="android:textColorPrimary">@color/flickrPrimaryText</item>
+        <item name="android:textColorSecondary">@color/flickrSecondaryText</item>
+        <item name="colorControlHighlight">@color/flickrBackground</item>
+        <item name="android:actionMenuTextColor">@color/flickrPrimaryText</item>
+        <item name="android:background">@color/flickrPrimaryBackground</item>
+    </style>
+
+    <style name="ActionBar.TitleText" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/flickrPrimaryText</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="ActionBarPopupThemeOverlay"></style>
+
 </resources>

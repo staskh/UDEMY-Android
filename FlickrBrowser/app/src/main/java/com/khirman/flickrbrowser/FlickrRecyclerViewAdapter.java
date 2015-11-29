@@ -2,12 +2,10 @@ package com.khirman.flickrbrowser;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-import android.widget.ListView;
-import android.view.View;
-import android.view.LayoutInflater;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.squareup.picasso.Picasso;
 
@@ -57,5 +55,10 @@ public class FlickrRecyclerViewAdapter extends RecyclerView.Adapter <FlickrImage
     @Override
     public int getItemCount() {
         return (null != mPhotosList ? mPhotosList.size():0);
+    }
+
+    public void loadNewData(List<Photo> newPhotos){
+        mPhotosList = newPhotos;
+        notifyDataSetChanged();
     }
 }

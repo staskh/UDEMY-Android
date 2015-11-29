@@ -29,25 +29,25 @@ public class MainActivity extends BaseActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        ProcessPhotos processPhotos = new ProcessPhotos("android,lollipop", true);
-        processPhotos.execute();
+        flickrRecyclerViewAdapter = new FlickrRecyclerViewAdapter(MainActivity.this, new ArrayList<Photo>());
+        mRecyclerView.setAdapter(flickrRecyclerViewAdapter);
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(flickrRecyclerViewAdapter!=null){
-            String query = getSavedPreferenceData(SearchActivity.FLICKR_QUERY);
-            if(query.length()>0){
-                ProcessPhotos processPhotos = new ProcessPhotos(query, true);
-                processPhotos.execute();
-            }
+
+        String query = getSavedPreferenceData(SearchActivity.FLICKR_QUERY);
+        if (query.length() > 0) {
+            ProcessPhotos processPhotos = new ProcessPhotos(query, true);
+            processPhotos.execute();
         }
     }
 
-    private String getSavedPreferenceData(String key){
+    private String getSavedPreferenceData(String key) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        return sharedPref.getString(key,"");
+        return sharedPref.getString(key, "");
     }
 
     @Override
@@ -67,8 +67,7 @@ public class MainActivity extends BaseActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }
-        else if (id == R.id.menu_search) {
+        } else if (id == R.id.menu_search) {
             Intent intent = new Intent(this, SearchActivity.class);
             startActivity(intent);
             return true;
@@ -82,14 +81,14 @@ public class MainActivity extends BaseActivity {
             super(searchCreteria, matchAll);
         }
 
-        public void execute(){
+        public void execute() {
             super.execute();
 
             ProcessData processData = new ProcessData();
             processData.execute();
         }
 
-        public class ProcessData extends DownloadJsonData{
+        public class ProcessData extends DownloadJsonData {
             /**
              * <p>Runs on the UI thread after {@link #doInBackground}. The
              * specified result is the value returned by {@link #doInBackground}.</p>
@@ -104,8 +103,7 @@ public class MainActivity extends BaseActivity {
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-                flickrRecyclerViewAdapter = new FlickrRecyclerViewAdapter(MainActivity.this,getmPhotos());
-                mRecyclerView.setAdapter(flickrRecyclerViewAdapter);
+                flickrRecyclerViewAdapter.loadNewData(getPhotos());
             }
         }
     }
